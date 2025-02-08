@@ -26,6 +26,12 @@ jobs:
         with:
           deno-version: "2.1.9"
 
+      - name: Cache Dependencies
+        run: deno cache main.ts
+
+      - name: Create dist directory
+        run: mkdir -p dist
+
       - name: Build Binary
         run: |
           deno compile --allow-net --allow-env --unstable-cron \
