@@ -26,6 +26,9 @@ jobs:
         with:
           deno-version: "2.1.9"
 
+      - name: Install npm dependencies
+        run: deno run -A --unstable https://deno.land/x/install_npm_deps.ts
+
       - name: Cache Dependencies
         run: deno cache main.ts
 
@@ -61,4 +64,4 @@ jobs:
             dist/**/*
           generate_release_notes: true
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
