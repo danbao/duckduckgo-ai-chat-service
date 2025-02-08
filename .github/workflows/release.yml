@@ -7,36 +7,37 @@ on:
 
 jobs:
   build:
-    name: Build ${{ matrix.os }}
+    name: Build ${{ matrix.target }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [linux, windows, darwin]
-        arch: [x86_64, aarch64]
-        exclude:
-          - os: windows
-            arch: aarch64
+        target:
+          - x86_64-unknown-linux-gnu
+          - aarch64-unknown-linux-gnu
+          - x86_64-pc-windows-msvc
+          - x86_64-apple-darwin
+          - aarch64-apple-darwin
 
     steps:
       - uses: actions/checkout@v4
 
       - name: Setup Deno
-        uses: denoland/setup-deno@v1
+        uses: denoland/setup-deno@v2
         with:
           deno-version: "2.1.9"
 
       - name: Build Binary
         run: |
           deno compile --allow-net --allow-env --unstable-cron \
-            --target ${{ matrix.os }}-${{ matrix.arch }} \
-            --output dist/app-${{ matrix.os }}-${{ matrix.arch }} \
+            --target ${{ matrix.target }} \
+            --output dist/app-${{ matrix.target }} \
             main.ts
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: app-${{ matrix.os }}-${{ matrix.arch }}
-          path: dist/app-${{ matrix.os }}-${{ matrix.arch }}*
+          name: app-${{ matrix.target }}
+          path: dist/app-${{ matrix.target }}*
 
   release:
     needs: build
@@ -48,7 +49,7 @@ jobs:
           path: dist
 
       - name: Create Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: |
             dist/**/*
