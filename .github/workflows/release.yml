@@ -1,0 +1,57 @@
+name: Release Build
+
+on:
+  push:
+    tags:
+      - 'v*' # 当推送带 v 前缀的标签时触发，如 v1.0.0
+
+jobs:
+  build:
+    name: Build ${{ matrix.os }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [linux, windows, darwin]
+        arch: [x86_64, aarch64]
+        exclude:
+          - os: windows
+            arch: aarch64
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: "2.1.9"
+
+      - name: Build Binary
+        run: |
+          deno compile --allow-net --allow-env --unstable-cron \
+            --target ${{ matrix.os }}-${{ matrix.arch }} \
+            --output dist/app-${{ matrix.os }}-${{ matrix.arch }} \
+            main.ts
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-${{ matrix.os }}-${{ matrix.arch }}
+          path: dist/app-${{ matrix.os }}-${{ matrix.arch }}*
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            dist/**/*
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
