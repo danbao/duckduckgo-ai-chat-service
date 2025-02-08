@@ -1,7 +1,9 @@
 {
   "version": "4",
   "specifiers": {
+    "jsr:@hono-rate-limiter/hono-rate-limiter@*": "0.4.2",
     "jsr:@hono/hono@*": "4.7.0",
+    "jsr:@hono/hono@^4.6.12": "4.7.0",
     "jsr:@lukeed/fetch-event-stream@*": "0.1.5",
     "jsr:@lukeed/fetch-event-stream@~0.1.5": "0.1.5",
     "jsr:@mumulhl/duckduckgo-ai-chat@3": "3.2.0",
@@ -11,6 +13,12 @@
     "npm:hono-rate-limiter@*": "0.4.2_hono@4.7.0"
   },
   "jsr": {
+    "@hono-rate-limiter/hono-rate-limiter@0.4.2": {
+      "integrity": "028c2ded3d21be30fb787044ddac3e656b24a9d3a06e42241a5a693409210217",
+      "dependencies": [
+        "jsr:@hono/hono@^4.6.12"
+      ]
+    },
     "@hono/hono@4.7.0": {
       "integrity": "1eb10e1976d3dda22ab43115ecfa348a43cd17c8aea5c0039c9757ebded624f8"
     },

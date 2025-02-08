@@ -1,7 +1,7 @@
 import { Hono } from "jsr:@hono/hono";
 import { BlankEnv, BlankSchema } from "jsr:@hono/hono/types";
 
-import { rateLimiter } from "npm:hono-rate-limiter";
+import { rateLimiter } from "jsr:@hono-rate-limiter/hono-rate-limiter";
 
 function limit(app: Hono<BlankEnv, BlankSchema, "/">) {
   const limit_var = Deno.env.get("LIMIT");
