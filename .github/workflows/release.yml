@@ -37,6 +37,7 @@ jobs:
             --target ${{ matrix.target }} \
             --output dist/duck2api-${{ matrix.target }} \
             main.ts
+          ldd dist/duck2api-${{ matrix.target }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -69,6 +70,7 @@ jobs:
           deno compile --allow-net --allow-env --unstable-cron \
             --output dist/duck2api-alpine-${{ matrix.arch }} \
             main.ts
+          ldd dist/duck2api-alpine-${{ matrix.arch }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
