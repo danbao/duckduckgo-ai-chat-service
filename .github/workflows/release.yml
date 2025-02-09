@@ -26,11 +26,10 @@ jobs:
         with:
           deno-version: "2.1.9"
 
-      - name: Install npm dependencies
-        run: deno run -A --unstable https://deno.land/x/install_npm_deps.ts
-
       - name: Cache Dependencies
-        run: deno cache main.ts
+        run: |
+          deno cache --reload main.ts
+          deno install
 
       - name: Create dist directory
         run: mkdir -p dist
