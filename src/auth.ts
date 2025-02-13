@@ -5,7 +5,8 @@ import { BlankEnv, BlankSchema } from "jsr:@hono/hono/types";
 function auth(app: Hono<BlankEnv, BlankSchema, "/">) {
   const token = Deno.env.get("TOKEN");
   if (token) {
-    app.use("/v1/*", bearerAuth({ token }));
+    app.use("/v1/chat/*", bearerAuth({ token }));
+    app.use("/v1/completions", bearerAuth({ token }));
   }
 }
 
