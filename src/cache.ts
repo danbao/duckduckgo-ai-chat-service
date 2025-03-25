@@ -1,6 +1,6 @@
 import { Chat } from "jsr:@mumulhl/duckduckgo-ai-chat@3";
 
-type Messages = { content: string; role: "user" | "assistant" | "system" }[];
+type Messages = { content: string; role: "user" | "assistant" | "system" | "developer" }[];
 
 const chatCache = new Map<string, Chat>();
 
